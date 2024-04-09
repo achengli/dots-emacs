@@ -9,24 +9,39 @@
 (menu-bar-mode -1)
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
-
 (global-display-line-numbers-mode 1)
+
+;; setup a backup directory
+(defcustom temoprary-file-directory
+  (concat (getenv "HOME") "/.local/tmp") t)
+(progn
+  (unless (file-directory-p temporary-file-directory)
+    (shell-command (concat "mkdir -p " temporary-file-directory)))
+  (setq backup-directory-alist
+	`((".*" . ,temporary-file-directory)))
+  (setq auto-save-file-name-transforms
+	`((".*" ,temporary-file-directory))))
 
 ;; package hosts
 (require 'package)
-(add-to-list 'package-archives '("gnu" . "https://elpa.gnu.org/packages/") t)
-(add-to-list 'package-archives '("nongnu" . "https://elpa.nongnu.org/nongnu/") t)
-(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
-(package-initialize)
+(let ((package-archives-list '(("gnu" . "https://elpa.gnu.org/packages/")
+			       ("nongnu" . "https://elpa.nongnu.org/nongnu/")
+			       ("melpa" . "https://melpa.org/packages/"))))
+  (dolist (p-archive package-archives-list)
+    (add-to-list 'package-archives p-archive) t)
+  (package-initialize))
 
 ;; ef-themes collection and modus-themes 
+(unless (symbolp 'ef-bio)
+  (package-install "ef-themes"))
 (load-theme 'ef-bio t)
 
 ;; PlemolJP <https://github.com/yuru7/PlemolJP>
-(defcustom font-faces-list '("PlemolJP Console NF"
-			     "HackGen NF") t)
-
-(set-face-attribute 'default nil :font (nth 0 font-faces-list) :height 140)
+;; HackGen <https://github.com/yuru7/HackGen>
+(let ((font-face-list
+       '("PlemolJP Console NF"
+	 "HackGen NF")))
+  (set-face-attribute 'default nil :font (nth 0 font-face-list) :height 140))
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -42,7 +57,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
-;; emacs-vim commands *performance
+;; emacs-vim commands *for a better performance*
 (evil-mode 1)
 
 (defalias 'yes-or-no-p 'y-or-n-p)
