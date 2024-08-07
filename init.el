@@ -17,6 +17,7 @@
 ;; setup a backup directory
 (defcustom temoprary-file-directory
   (concat (getenv "HOME") "/.local/tmp") t)
+
 (progn
   (unless (file-directory-p temporary-file-directory)
     (shell-command (concat "mkdir -p " temporary-file-directory)))
@@ -25,7 +26,8 @@
   (setq auto-save-file-name-transforms
 	`((".*" ,temporary-file-directory))))
 
-;; package hosts
+
+;; package repositories
 (require 'package)
 (let ((package-archives-list '(("gnu" . "https://elpa.gnu.org/packages/")
 			       ("nongnu" . "https://elpa.nongnu.org/nongnu/")
@@ -33,23 +35,6 @@
   (dolist (p-archive package-archives-list)
     (add-to-list 'package-archives p-archive) t)
   (package-initialize))
-
-;; ef-themes collection and modus-themes 
-(unless (symbolp 'ef-bio)
-  (package-install "ef-themes"))
-(load-theme 'modus-operandi t)
-
-(set-background-color "#F0FFF0")
-
-;; PlemolJP <https://github.com/yuru7/PlemolJP>
-;; HackGen <https://github.com/yuru7/HackGen>
-(let ((font-face-list
-       '("PlemolJP Console NF"
-	 "HackGen Console NF"
-	 "VictorMono Nerd Font"
-	 "BlexMono Nerd Font"
-	 "Hack Nerd Font")))
-  (set-face-attribute 'default nil :font (nth 1 font-face-list) :height 140))
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -67,48 +52,38 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
-;; emacs-vim commands *for a better performance*
-(evil-mode 1)
 
 (defalias 'yes-or-no-p 'y-or-n-p)
 
-;; insert cons for each language you want to enable
-(org-babel-do-load-languages
- 'org-babel-load-languages
- '((python . t)
-   (lua . t)
-   (julia . t)
-   (octave . t)))
-
 ;; little packages
-(defconst HOME (getenv "HOME"))
-(add-to-list 'load-path (concat HOME "/.emacs.d/packages"))
+(let ((HOME (getenv "HOME")))
+  (add-to-list 'load-path (concat HOME "/.emacs.d/packages/"))
+  (add-to-list 'load-path (concat HOME "/.emacs.d/lisp/")))
 
-;; runtime configuration files
-(add-to-list 'load-path (concat HOME "/.emacs.d/after"))
 (progn
-  (require 'modus-rc))
+  (load "package-config.el")
+  (require 'package-config)
+  (load "org-config.el")
+  (require 'org-config))
 
-;; org mode customizations
-(load (concat (getenv "HOME") "/.emacs.d/org-config.el"))
+;; ef-themes collection and modus-themes 
+(unless (symbolp 'ef-bio)
+  (package-install "ef-themes"))
 
-(use-package company
-  :ensure t
-  :init (company-mode 1))
-(put 'set-goal-column 'disabled nil)
+;; theme selection
+(let ((theme 'dark))
+  (set 'modus-themes-italic-constructs t)
+  (if (equal theme 'light)
+      (progn (load-theme 'modus-operandi t)
+	     (set-background-color "#F0FFF0"))
+    (load-theme 'modus-vivendi t)))
 
-(use-package lsp-mode
-  :init
-  (setq lsp-keymap-prefix "C-c l")
-  :hook
-  (python-mode . lsp)
-  (lsp-mode . lsp-enable-which-key-integration)
-  :commands lsp)
-
-(use-package lsp-ivy :commands lsp-ivy-workspace-symbol)
-(use-package lsp-treemacs :commands lsp-treemacs-errors-list)
-
-(use-package which-key
-  :ensure
-  :config
-  (which-key-mode))
+;; PlemolJP <https://github.com/yuru7/PlemolJP>
+;; HackGen <https://github.com/yuru7/HackGen>
+(let ((font-face-list
+       '("PlemolJP Console HS" "HackGen Console NF"
+	 "VictorMono Nerd Font" "BlexMono Nerd Font"
+	 "Hack Nerd Font")))
+  (set-face-font 'italic (concat (nth 0 font-face-list) " Italic"))
+  (set-face-font 'default (nth 0 font-face-list))
+  (set-face-font 'bold (concat (nth 0 font-face-list) " Bold")))
