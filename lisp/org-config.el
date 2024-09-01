@@ -18,6 +18,7 @@
  '((python . t)
    (lua . t)
    (julia . t)
-   (octave . t)))
+   (octave . t)
+   (maxima . t)))
 
 (provide 'org-config)

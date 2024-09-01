@@ -19,7 +19,33 @@
   :config
   (which-key-mode))
 
-;; emacs-vim commands *for a better performance*
+;; vim shortcuts
 (evil-mode 1)
+
+;; doom modeline
+(use-package doom-modeline
+  :ensure t
+  :init (doom-modeline-mode 1))
+;; doom modeline customization
+(setq doom-modeline-support-imenu t
+      doom-modeline-height 25
+      doom-modeline-bar-width 4
+      doom-modeline-window-width-limit nil)
+
+;; yasnippet
+(add-to-list 'load-path
+             "~/path-to-yasnippet")
+(require 'yasnippet)
+(yas-global-mode 1)
+
+(add-to-list 'load-path "/usr/share/emacs/site-lisp/maxima/")
+(autoload 'maxima-mode "maxima" "Maxima mode" t)
+(autoload 'imaxima "imaxima" "Frontend for maxima with Image support" t)
+(autoload 'maxima "maxima" "Maxima interaction" t)
+(autoload 'imath-mode "imath" "Imath mode for math formula input" t)
+(setq imaxima-use-maxima-mode-flag nil)
+(add-to-list 'auto-mode-alist '("\\.ma[cx]\\'" . maxima-mode))
+(setq imaxima-fnt-size "large")
+(setq imaxima-pt-size 12)
 
 (provide 'package-config)
