@@ -87,4 +87,4 @@
   :ensure t
   :init (doom-modeline-mode 1))
 
-(set-frame-font "hack nerd font 13" nil)
+(set-frame-font "hack nerd font 13" nil t)
