@@ -73,15 +73,15 @@
   (package-install "ef-themes"))
 
 ;; theme selection
-(let ((theme 'light))
+(let ((theme 'dark))
   (set 'modus-themes-italic-constructs t)
   (if (equal theme 'light)
       (progn (load-theme 'modus-operandi t)
 	     (set-background-color "#F0FFF0"))
-    (load-theme 'modus-vivendi t)))
+    (load-theme 'adwaita-dark t)))
 
 (use-package doom-modeline
   :ensure t
   :init (doom-modeline-mode 1))
 
-(set-frame-font "plemoljp 13" nil t)
+(set-frame-font "hack nerd font 13" nil t)

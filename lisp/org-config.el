@@ -21,4 +21,15 @@
    (octave . t)
    (maxima . t)))
 
+(defun org-insert-named-opt (name val)
+  "Put header pair name-value in current position.
+#+NAME: value
+"
+  (interactive "sOption name: \nsValue: ")
+	       (with-current-buffer (current-buffer)
+		 (goto-char (point))
+		 (insert (concat "#+" (upcase name) ": " val))))
+
+(define-key org-mode-map (kbd "C-u n") #'org-insert-named-opt)
+
 (provide 'org-config)
