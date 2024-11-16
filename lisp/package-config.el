@@ -14,6 +14,9 @@
 (use-package lsp-ivy :commands lsp-ivy-workspace-symbol)
 (use-package lsp-treemacs :commands lsp-treemacs-errors-list)
 
+(require 'smooth-scrolling)
+(smooth-scrolling-mode 1)
+
 (use-package which-key
   :ensure
   :config
@@ -22,6 +25,7 @@
 ;; vim shortcuts
 (evil-mode 1)
 
+<<<<<<< HEAD
 ;; doom modeline
 (use-package doom-modeline
   :ensure t
@@ -47,5 +51,17 @@
 (add-to-list 'auto-mode-alist '("\\.ma[cx]\\'" . maxima-mode))
 (setq imaxima-fnt-size "large")
 (setq imaxima-pt-size 12)
+=======
+;; doom-modeline
+(use-package doom-modeline
+  :ensure t
+  :init (doom-modeline-mode 1))
+;; doom modeline custom
+(setq doom-modeline-support-imenu t
+      doom-modeline-height 25
+      doom-modeline-bar-width 4
+      doom-modeline-window-limit nil)
+
+>>>>>>> b196045 (Sat Nov 16 06:48:03 PM CET 2024)
 
 (provide 'package-config)
