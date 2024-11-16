@@ -14,6 +14,9 @@
 (use-package lsp-ivy :commands lsp-ivy-workspace-symbol)
 (use-package lsp-treemacs :commands lsp-treemacs-errors-list)
 
+(require 'smooth-scrolling)
+(smooth-scrolling-mode 1)
+
 (use-package which-key
   :ensure
   :config
