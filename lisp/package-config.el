@@ -52,3 +52,9 @@
 (setq imaxima-pt-size 12)
 
 (provide 'package-config)
+
+(setq inferior-lisp-program "sbcl")
+(use-package slime-company
+  :after (slime company)
+  :config (setq slime-company-completion 'fuzzy
+		slime-company-after-completion 'slime-company-just-one-space))

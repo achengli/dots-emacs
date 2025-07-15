@@ -22,6 +22,9 @@ sValue: ")
   :config
   (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
 
+;; org markdown export
+(require 'ox-md)
+
 ;; insert cons for each language you want to enable
 (org-babel-do-load-languages
  'org-babel-load-languages
